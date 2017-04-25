@@ -1,0 +1,53 @@
+Hadoop - data warehousing
+diff from a database as it doesnt have queries
+
+
+Data processing		+  Distributed File system for storage
+
+HDFS -> Dump then analyse with any tool 
+NameNode to track data in DataNodes.
+Stores both data processing software on each machine with data (faster retrieval, redundacy in case of failure) 
+Default tool is MapReduce (Javabased) 
+MapReduce - Runs a series of jobs (each job takes data out)
+Can use Hive to convert queries into MapReduce jobs
+BUT mapreduce has one job at a time processing.
+
+JobTracker on master node, TaskTrackers on each node
+divides computing jobs and shifts out to tasktrackers
+Then reduced back to central node
+
+Job -> Whole process of execution; input data, mapper and reducers execution and the output data
+
+Task -> is a job portion that goes to every mapper and reducer
+
+Split -> ip file split into several splits, where size is usually hdfs block size
+
+Record -> Split is read a line at a time, where each line is a record
+
+Parition ->  Set of all key value pairs sent to a reducer
+
+
+------------------------------------------------------------
+Writing Hadoop MapReduce and its lingo : 
+
+init
+Divides the ip file into splits (size of hdfs block) and assigns to different mappers
+
+mapper
+locally,
+reads the split of the mapper, calls the method map for every line
+computes and emits new key value pairs
+
+shuffle and sort
+locally, 
+divides emitted output from mapper to parititions and sends to different reducers with keys
+collects all partitions and sorts them by key
+
+reducer
+locally,
+reads the aggregated partitions and calls reduce method for every line
+computers emits new key value pairs
+writes the emitted pairs output to hdfs
+
+
+

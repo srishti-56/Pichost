@@ -1,0 +1,14 @@
+collection.insert({
+			"name" : req.body.uname,
+			"dob" : req.body.udob,
+			"email": req.body.uemail,
+			"pwd": req.body.upwd,
+			//add photos later
+			"friends": '',
+			"requests_sent" : '',
+			"requests_recieve": '', 
+		}, function(err, doc){
+			if(err) res.json({status:'fail', message:'error on insert'});
+			else
+				res.json({status:'success'});
+		});

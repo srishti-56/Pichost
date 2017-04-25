@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<script src="./js/jquery-3.2.0.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+
+	<title>	Your profile </title>
+
+	<script type="text/javascript">
+
+			function loading(){
+				console.log('Hello');
+				$.ajax({
+		  		url: "/photos",
+		  		type: "POST", 
+		  		success: function(result){
+		  			console.log(JSON.stringify(result));
+//		  			console.log('hello' + result.length);
+		  			//console.log(result[0].fullname);
+		  			//disp(1);
+		  			var img_path = JSON.stringify(result);
+		  			img_path = img_path.replace(/"/g,"");
+		  			img_path = img_path.replace(/public\//g,"");		  			
+		  			img_path = "http://localhost:3030/" + img_path;
+		  			$('#dp_path').attr("src", img_path);
+	    	}});
+
+				$.ajax({
+		  		url: "/userinfo",
+		  		type: "POST", 
+		  		success: function(result){
+		  			console.log(JSON.stringify(result));
+//		  			console.log('hello' + result.length);
+		  			//console.log(result[0].fullname);
+		  			//disp(1);
+		  			var x = JSON.parse(JSON.stringify(result));
+					$('#user_name').append(x.username);		  			
+					$('#user_email').append(x.email);		  			
+					$('#photo_count').append(x.photo_count);		  			
+					$('#friend_count').append(x.friend_count);		  			
+
+	    	}});
+
+
+			}
+
+		$(window).on('load', loading);
+
+	</script>
+
+</head>
+
+<!-- body onload send AJAX by jquery ($.AJAX) to profile.js scripts  -->
+
+<body>
+	<div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
+	  <div class="jumbotron" style="margin-bottom: 0px">
+	    <h2> Share memories and keep in touch through PicHost!</h2> 
+	  </div>
+
+	  <div class = "row" style="padding-bottom: 15px; margin-top: 0px;">
+	  <div>
+	  	<ul class="nav nav-pills nav-justified">
+		  <li class="active"><a data-toggle="pill" href="#">Home</a></li>
+		  <li><a data-toggle="pill" href="#myuploads"> My Uploads </a></li>
+		  <li><a data-toggle="pill" href="#findfriends"> Find friends </a></li>
+		</ul> 
+		</div>
+	  </div>
+
+
+		<div class="tab-content">
+
+		<div id="home" class="tab-pane fade in active">
+
+		  	<div class="row">
+			  <div class = "col-md-3 well" style="margin-left: 20px">
+			  	<div id="dp" class="well">
+			  		<span> <b> <p id="user_name"> </p> </b> </span> 
+			  		<img style="max-width:100%; height:auto; border-radius: 10px;" id="dp_path" src="">  </img>
+			  		<p> </p>
+			  	</div>
+			  	<div id="basic_info" class="well">
+			  		<p id="user_email"> Email:  </p>
+			  		<p id="photo_count"> Photos:  </p>
+			  		<p id="friend_count"> Friends:  </p>
+			  	</div>
+			  
+			  </div>
+
+			  <div class="col-md-8"> 
+			  		<div id="newsfeed" class="well">
+			  			<!-- Generate divs as photos load , JQUERY? ,
+			  			increment likes -->
+			  			<!-- First div -->
+			  			<div id="nf_photos" class="well">
+			  				<div> <img id="friend_photo" img src=""> </img> </div>
+			  				<div> <p id="friend_user"> Uploaded by: </p> </div>
+			  				<div> <p id="likes_count"> </p> 
+			  				<button id="like" class="btn"> Like </button> </div>
+			  			</div>
+			 		</div>
+		  	   </div>
+
+		  </div>
+	   	</div> <!-- closes home-->
+
+
+		  <div id="myuploads" class="tab-pane fade">
+		    <h3> My pictures! </h3>
+		    <p>Some content in menu 1.</p>
+		  </div>
+
+
+		  <div id="findfriends" class="tab-pane fade">
+		    <h3>Search for people you know! </h3>
+		    <p>Some content in menu 2.</p>
+		  </div>
+
+
+		</div>
+
+
+	</div>
+
+
+  
+
+
+
+</body>
+</html>

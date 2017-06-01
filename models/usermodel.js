@@ -1,6 +1,8 @@
+
 var mongoose = require('mongoose');
 var UserSchema = mongoose.Schema;
 
+// picdb schema
 var UserModelSchema = new UserSchema({
     name: String,
     email: String,
@@ -11,7 +13,7 @@ var UserModelSchema = new UserSchema({
     req_recieved: [],
     photo_count: Number,
     friend_count: Number,
-    photos: {
+    photos: [{
         path: String,
     	pname: String,
         ptype: String,
@@ -22,7 +24,7 @@ var UserModelSchema = new UserSchema({
     	likes : Number,
     	owner : UserSchema.Types.ObjectId,
         album: String
-    }
+    }]
 });
 
 var UserModel = mongoose.model('UserModel', UserModelSchema);

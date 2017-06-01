@@ -10,11 +10,21 @@
 
 	<script type="text/javascript">
 
+			var global_add_fr = ''; 
+			var global_pending_count = 0;
+			var global_friend_list =[];
+
+			//window onload
 			function loading(){
+				$('#login').hide();
+				$('#addfr').hide();
+				var flag;
+				
+				//get profile photo
 				console.log('Hello');
 				$.ajax({
-		  		url: "/photos",
-		  		type: "POST", 
+		  		url: "/dispphotos",
+		  		type: "GET", 
 		  		success: function(result){
 		  			console.log(JSON.stringify(result));
 //		  			console.log('hello' + result.length);
@@ -25,28 +35,310 @@
 		  			img_path = img_path.replace(/public\//g,"");		  			
 		  			img_path = "http://localhost:3030/" + img_path;
 		  			$('#dp_path').attr("src", img_path);
-	    	}});
 
+	    		}
+
+
+
+	    	});
+
+				//get userinfo
 				$.ajax({
 		  		url: "/userinfo",
-		  		type: "POST", 
+		  		type: "GET", 
 		  		success: function(result){
+		  			var i;
 		  			console.log(JSON.stringify(result));
 //		  			console.log('hello' + result.length);
 		  			//console.log(result[0].fullname);
 		  			//disp(1);
-		  			var x = JSON.parse(JSON.stringify(result));
+		  			x = JSON.parse(JSON.stringify(result));
+		  			var flag = x.flag;
+					console.log('username' + x.username);
+					login_control(flag);
+					var tmp_flag = 0;
+
 					$('#user_name').append(x.username);		  			
 					$('#user_email').append(x.email);		  			
 					$('#photo_count').append(x.photo_count);		  			
-					$('#friend_count').append(x.friend_count);		  			
+					$('#friend_count').append(x.friend_count);	
+					global_pending_count = x.req_recieved.length;
+					console.log(global_pending_count);
 
-	    	}});
+					for(i=0; i<global_pending_count;i++){
+
+					var node = document.createElement('LI');
+					var textnode = document.createTextNode(x.req_recieved[i].name);
+					node.appendChild(textnode);
+					node.id="fr_list_name_" + i;
+					document.getElementById('fr_req_list').appendChild(node);
+					
+
+					var c_btn = document.createElement('button');
+					c_btn.id="c_fr_list_"+i;
+					c_btn.value=i;
+					c_btn.name="confirm_fr";
+					textnode = document.createTextNode("Confirm");
+					c_btn.appendChild(textnode);
+					document.getElementById('fr_req_list').appendChild(c_btn);
+
+					
+					var d_btn = document.createElement('button');
+					d_btn.id="d_fr_list_"+i;
+					d_btn.value=i;
+					d_btn.name="delete_fr";
+					textnode = document.createTextNode("Delete Request");
+					d_btn.appendChild(textnode);
+					document.getElementById('fr_req_list').appendChild(d_btn);
+
+					
+					console.log("going outside ajax");
+					console.log(i + 'compared to' + global_pending_count);
+					if(i == global_pending_count-1){
+						console.log("called");
+					add_listeners();
+				}
+					
+				}
+				/*if(tmp_flag ==1){
+						add_listeners();
+					}*/
+
+				
+			}
+
+			});
+
+			loadnewsfeed();
+
+			}
+
+
+			//adds listeners to confirm/delete friend request buttons
+			function add_listeners(){
+				console.log("Called?" + global_pending_count);
+				var j=0;
+				while(j<global_pending_count){
+					//console.log("did i  add_listeners");
+
+					document.getElementById('c_fr_list_' + j).addEventListener('click', function() {
+						console.log(this);
+						var f = $(this).attr("value");
+						console.log(f);
+						fr_str = '#fr_list_name_'+f;
+						console.log(fr_str);
+						var fr_data = $(fr_str).html();
+						console.log(fr_data);
+						$.ajax({
+					  		url: "/confirm_req",
+					  		type: "POST",
+					  		data: {
+					  			c_fr_email: fr_data
+					  		} ,
+					  		success: function(result){
+					  			console.log(JSON.stringify(result));
+
+				    		}
+
+						});
+					});
+
+
+					document.getElementById('d_fr_list_' + j).addEventListener('click',function() {
+						console.log(this);
+						var f = $(this).attr("value");
+						console.log(f);
+						fr_str = '#fr_list_name_'+f;
+						console.log(fr_str);
+						var fr_data = $(fr_str).html();
+						console.log(fr_data);
+						$.ajax({
+					  		url: "/delete_req",
+					  		type: "POST",
+					  		data: {
+					  			c_fr_email: fr_data
+					  		} ,
+					  		success: function(result){
+					  			console.log(JSON.stringify(result));
+
+				    		}
+
+						});
+
+					});
+
+				j++;
+				}
+
+			}
+
+			//gets logged in users photos
+			function loadpics(){
+				$.ajax({
+					url:"/loadphotos",
+					type: "GET",
+					success: function(result){
+						if(result.length>=1){
+
+							console.log(result);
+							var p_len = result.length;
+							for(i=0; i < p_len; i++){
+								console.log(JSON.stringify(result[i]));
+								var img_path = result[i].path;
+					  			img_path = img_path.replace(/"/g,"");
+					  			img_path = img_path.replace(/public\//g,"");		  			
+					  			img_path = "http://localhost:3030/" + img_path;
+					  			
+					  			
+					  			$('#gallery').prepend('<div class="well"> <img style="margin-left:30%; margin-right:30%;width:40%; height:auto;padding-right:4%; padding-left:4%; padding-top:4%; padding-bottom: 4%" src="' + img_path +'"/> <b> <p style ="margin-left:30%; margin-right:30%:"> '+ result[i].name + ' </p> </b> </span> </div>');
+
+					  			document.getElementById('mypics').disabled = true;
+
+							}
+						}
+						else{
+							console.log(result);
+							alert(result.message);
+						}
+
+					}
+
+
+				});
+
+			}
+			
+			//gets back best match when friend search input has a value
+			function findFriends() {
+				global_add_fr = $('#fname').val();
+				$('#res_name').empty();
+				$('#res_email').empty();
+				$('#res_photo').empty();
+
+				$.ajax({
+					url: "/findfriend",
+					type: "POST",
+					data:{
+						usrname : $('#fname').val()
+					},
+					success: function(result){
+						if(result.status != "Error"){
+						document.getElementById('addfr').disabled = false;
+
+						console.log('a result' + JSON.stringify(result));
+
+						var x = JSON.parse(JSON.stringify(result));
+						var img_path = JSON.stringify(result.pic_path);
+						img_path = img_path.replace(/"/g,"");
+		  				img_path = img_path.replace(/public\//g,"");		  			
+		  				img_path = "http://localhost:3030/" + img_path;
+						$('#res_photo').attr("src", img_path);
+						$('#res_name').append(x.username);
+						$('#res_email').append(x.email);
+						$('#addfr').show();
+					}
+					else{
+						console.log(result.message);
+						alert(result.message);
+
+					}
+					}
+
+				});
+				console.log("posted");
 
 
 			}
 
+			//checks if user is logged in, if not alerts the user
+			function login_control(flag){
+				console.log('lgin_control');
+				if(flag == 0){
+						alert('You must be signed in to view this page!');
+						$('#login').show();
+						$('#logout').hide();
+					}	
+
+			}
+			/*function updateCount(){
+
+			}
+			*/
+
+			//sends a friend request
+			function addfriend(){
+				console.log("Sending request");
+				$.ajax({
+					url:"/addfriend",
+					type: "POST",
+					data: {
+						username : global_add_fr
+					},
+					success: function(result){
+						console.log(JSON.stringify(result));
+						document.getElementById('addfr').disabled = true;
+						//$('#addfr').
+						alert(result.message);
+					}
+				});
+
+			}
+
+			//loads the newsfeed depending on friends a user has
+			function loadnewsfeed(){
+				console.log("Requesting for feed");
+					$.ajax({	
+					url:"/newsfeed",
+					type: "GET",
+					success: function(result){
+						var n = 0;
+						console.log(JSON.stringify(result));
+						x_len = result.length;
+						for(b=0; b<x_len; b++){
+							global_friend_list.push(result[b].name);
+						
+						}
+						console.log(global_friend_list);
+						getphotos();
+						
+					}
+
+				});
+
+			}
+
+			//gets photos of all friends
+			function getphotos(){
+
+				another_len = global_friend_list.length;
+				for(u=0; u <another_len; u++){
+					$.ajax({
+						url: "/nphotos",
+						type: "POST",
+						data: {
+							fname : global_friend_list[u]
+						},
+						success: function(result){
+							console.log(JSON.stringify(result));
+							photo_len = result.length;
+							for( f=0; f < photo_len; f++){
+							var news_path = JSON.stringify(result[f].path);
+							news_path = news_path.replace(/"/g,"");
+		  					news_path = news_path.replace(/public\//g,"");		  			
+		  					news_path = "http://localhost:3030/" + news_path;
+		  				
+							$("#newsfeed").prepend('<div id="nf_photos" class="well"><div> <img style="width:40%; height:auto" id="friend_photo" img src="'+ news_path + '"> </img> </div><div> <b><p id="friend_user"> Uploaded by: '+  result[f].usrname + ' </p> </b</div> </div'  );
+						}
+							
+						}
+					});
+				}
+
+			}
+
 		$(window).on('load', loading);
+
+
 
 	</script>
 
@@ -55,15 +347,23 @@
 <!-- body onload send AJAX by jquery ($.AJAX) to profile.js scripts  -->
 
 <body>
-	<div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
+	<div class="container-fluid" style="padding-left: 10px; padding-right: 0px;">
+
+
 	  <div class="jumbotron" style="margin-bottom: 0px">
+	  <div class="row">
 	    <h2> Share memories and keep in touch through PicHost!</h2> 
+	    </div>
+	    <a href = "/logout"> <button class= "btn btn-warning" style="float:right;" id="logout"> Logout!</button></a>
 	  </div>
+	   	<a href = "/login"> <button class= "btn btn-warning" style="float:right;" id="login"> Log in or Sign up!</button></a>
+	  </div>
+
 
 	  <div class = "row" style="padding-bottom: 15px; margin-top: 0px;">
 	  <div>
 	  	<ul class="nav nav-pills nav-justified">
-		  <li class="active"><a data-toggle="pill" href="#">Home</a></li>
+		  <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
 		  <li><a data-toggle="pill" href="#myuploads"> My Uploads </a></li>
 		  <li><a data-toggle="pill" href="#findfriends"> Find friends </a></li>
 		</ul> 
@@ -73,8 +373,8 @@
 
 		<div class="tab-content">
 
+<!-- NEWSFEED -->
 		<div id="home" class="tab-pane fade in active">
-
 		  	<div class="row">
 			  <div class = "col-md-3 well" style="margin-left: 20px">
 			  	<div id="dp" class="well">
@@ -95,12 +395,12 @@
 			  			<!-- Generate divs as photos load , JQUERY? ,
 			  			increment likes -->
 			  			<!-- First div -->
-			  			<div id="nf_photos" class="well">
+<!-- 			  			<div id="nf_photos" class="well">
 			  				<div> <img id="friend_photo" img src=""> </img> </div>
 			  				<div> <p id="friend_user"> Uploaded by: </p> </div>
 			  				<div> <p id="likes_count"> </p> 
-			  				<button id="like" class="btn"> Like </button> </div>
-			  			</div>
+			  				<button id="like" class="btn" onclick=""> Like </button> </div>
+			  			</div> -->
 			 		</div>
 		  	   </div>
 
@@ -108,15 +408,64 @@
 	   	</div> <!-- closes home-->
 
 
+<!--PERSONAL PHOTOS -->
+
 		  <div id="myuploads" class="tab-pane fade">
+		  	<div style=" margin-left: 5%">
+
 		    <h3> My pictures! </h3>
-		    <p>Some content in menu 1.</p>
+		    <form method="POST" action= "/addphotos" id='us' enctype="multipart/form-data">
+
+			<div class="form-group">
+			<label>Upload your image here! </label>
+			<input name="uimg" style="width:50%;" type="file" class="form-control" >
+			</div> 
+		   <button style="margin-bottom:10px;" id="sbtn2" class="btn btn-success" type="submit"> Upload! </button>
+		   </form>
+
+		   <div class="well" id="gallery">
+		   		<button onclick="loadpics()" class="btn" style="margin-left:40%; margin-right:40%" id="mypics"> Load photos! </button>
+		   </div>
+		  </div> <!-- closes margin-left div -->
 		  </div>
 
 
+
+<!--FRIENDS -->
 		  <div id="findfriends" class="tab-pane fade">
+		  <div style=" margin-left: 5%">
 		    <h3>Search for people you know! </h3>
-		    <p>Some content in menu 2.</p>
+		    <div class="col-md-8">
+		    	<div class="form-group" style="width:50%;padding-left: 20%+  "> <label> Enter friend's email here </label>
+		    	<input type="text" class="form-control" id="fname"> </input>
+		    	<button style = "margin-top: 10px;" class="btn btn-primary" onclick="findFriends()"> Search! </button>
+
+
+		    	<div style="margin-top:20px" id="search_res" class="well">
+		    		<div id="res_photos" class="well">
+		    		<span> <p>
+		    			<div class="col-md-3"  > <img style="max-width:100%; height:auto; border-radius: 10px;" id="res_photo" src=""> </img> </div>
+		    			<div  id="res_name"> </div>	
+		    			<div  id="res_email"> </div></p> </span>
+		    		</div>
+		    		<button class="btn btn-primary" onclick="addfriend()" id="addfr" > Add friend </button> 
+		    	</div>
+
+
+		    	</div>
+		    	</div> <!-- Closes col -6 div-->
+
+		    		<div class = "col-md-4"> 
+		    			<h3> View pending requests </h3>
+
+		    			<div id="fr_req_list">
+
+		    			</div>
+
+		    		</div>
+
+
+		  </div>
 		  </div>
 
 

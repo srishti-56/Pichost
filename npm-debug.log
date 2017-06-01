@@ -1,0 +1,123 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install' ]
+2 info using npm@2.15.1
+3 info using node@v0.10.48
+4 verbose node symlink /usr/bin/node
+5 verbose readDependencies loading dependencies from /home/srishti/dev/pichost/package.json
+6 warn package.json Pichost@0.0.1 No description
+7 warn package.json Pichost@0.0.1 No repository field.
+8 warn package.json Pichost@0.0.1 No README data
+9 warn package.json Pichost@0.0.1 No license field.
+10 verbose install where, deps [ '/home/srishti/dev/pichost',
+10 verbose install   [ 'bcryptjs',
+10 verbose install     'body-parser',
+10 verbose install     'client-sessions',
+10 verbose install     'express',
+10 verbose install     'fs',
+10 verbose install     'fs-extra',
+10 verbose install     'mongodb',
+10 verbose install     'multer',
+10 verbose install     'mysql',
+10 verbose install     'path' ] ]
+11 verbose install where, peers [ '/home/srishti/dev/pichost', [] ]
+12 verbose installManyTop reading for lifecycle /home/srishti/dev/pichost/package.json
+13 info preinstall Pichost@0.0.1
+14 verbose installManyTop reading scoped package data from /home/srishti/dev/pichost/node_modules/bcrypt/package.json
+15 verbose installManyTop reading scoped package data from /home/srishti/dev/pichost/node_modules/bcryptjs/package.json
+16 verbose installManyTop reading scoped package data from /home/srishti/dev/pichost/node_modules/body-parser/package.json
+17 verbose installManyTop reading scoped package data from /home/srishti/dev/pichost/node_modules/client-sessions/package.json
+18 verbose installManyTop reading scoped package data from /home/srishti/dev/pichost/node_modules/express/package.json
+19 verbose installManyTop reading scoped package data from /home/srishti/dev/pichost/node_modules/fs/package.json
+20 verbose installManyTop reading scoped package data from /home/srishti/dev/pichost/node_modules/fs-extra/package.json
+21 verbose installManyTop reading scoped package data from /home/srishti/dev/pichost/node_modules/mongodb/package.json
+22 verbose installManyTop reading scoped package data from /home/srishti/dev/pichost/node_modules/mongoose/package.json
+23 verbose installManyTop reading scoped package data from /home/srishti/dev/pichost/node_modules/multer/package.json
+24 verbose installManyTop reading scoped package data from /home/srishti/dev/pichost/node_modules/mysql/package.json
+25 verbose installManyTop reading scoped package data from /home/srishti/dev/pichost/node_modules/path/package.json
+26 info package.json client-sessions@0.7.0 No license field.
+27 info package.json fs@0.0.1-security fs is also the name of a node core module.
+28 info package.json path@0.12.7 path is also the name of a node core module.
+29 verbose readDependencies loading dependencies from /home/srishti/dev/pichost/package.json
+30 verbose targetResolver reading package data from /home/srishti/dev/pichost/node_modules/bcrypt/package.json
+31 verbose targetResolver reading package data from /home/srishti/dev/pichost/node_modules/bcryptjs/package.json
+32 verbose targetResolver reading package data from /home/srishti/dev/pichost/node_modules/body-parser/package.json
+33 verbose targetResolver reading package data from /home/srishti/dev/pichost/node_modules/client-sessions/package.json
+34 verbose targetResolver reading package data from /home/srishti/dev/pichost/node_modules/express/package.json
+35 verbose targetResolver reading package data from /home/srishti/dev/pichost/node_modules/fs/package.json
+36 verbose targetResolver reading package data from /home/srishti/dev/pichost/node_modules/fs-extra/package.json
+37 verbose targetResolver reading package data from /home/srishti/dev/pichost/node_modules/mongodb/package.json
+38 verbose targetResolver reading package data from /home/srishti/dev/pichost/node_modules/mongoose/package.json
+39 verbose targetResolver reading package data from /home/srishti/dev/pichost/node_modules/multer/package.json
+40 verbose targetResolver reading package data from /home/srishti/dev/pichost/node_modules/mysql/package.json
+41 verbose targetResolver reading package data from /home/srishti/dev/pichost/node_modules/path/package.json
+42 verbose already installed skipping fs-extra@^2.1.2 /home/srishti/dev/pichost
+43 verbose already installed skipping mongodb@^2.2.25 /home/srishti/dev/pichost
+44 verbose already installed skipping multer@^1.3.0 /home/srishti/dev/pichost
+45 verbose already installed skipping mysql@^2.13.0 /home/srishti/dev/pichost
+46 verbose already installed skipping path@^0.12.7 /home/srishti/dev/pichost
+47 verbose already installed skipping bcryptjs@^2.4.3 /home/srishti/dev/pichost
+48 verbose already installed skipping body-parser@^1.17.1 /home/srishti/dev/pichost
+49 verbose already installed skipping client-sessions@^0.7.0 /home/srishti/dev/pichost
+50 verbose already installed skipping express@^4.15.2 /home/srishti/dev/pichost
+51 verbose already installed skipping fs@0.0.1-security /home/srishti/dev/pichost
+52 silly install resolved []
+53 info build /home/srishti/dev/pichost
+54 info linkStuff Pichost@0.0.1
+55 silly linkStuff Pichost@0.0.1 has /home/srishti/dev as its parent node_modules
+56 verbose linkBins Pichost@0.0.1
+57 verbose linkMans Pichost@0.0.1
+58 verbose rebuildBundles Pichost@0.0.1
+59 verbose rebuildBundles [ 'bcrypt',
+59 verbose rebuildBundles   'bcryptjs',
+59 verbose rebuildBundles   'body-parser',
+59 verbose rebuildBundles   'client-sessions',
+59 verbose rebuildBundles   'express',
+59 verbose rebuildBundles   'fs',
+59 verbose rebuildBundles   'fs-extra',
+59 verbose rebuildBundles   'mongodb',
+59 verbose rebuildBundles   'mongoose',
+59 verbose rebuildBundles   'multer',
+59 verbose rebuildBundles   'mysql',
+59 verbose rebuildBundles   'path' ]
+60 verbose rebuild bundle /home/srishti/dev/pichost/node_modules/bcrypt
+61 info build /home/srishti/dev/pichost/node_modules/bcrypt
+62 info preinstall bcrypt@1.0.2
+63 info linkStuff bcrypt@1.0.2
+64 silly linkStuff bcrypt@1.0.2 has /home/srishti/dev/pichost/node_modules as its parent node_modules
+65 verbose linkBins bcrypt@1.0.2
+66 verbose linkMans bcrypt@1.0.2
+67 verbose rebuildBundles bcrypt@1.0.2
+68 verbose rebuildBundles [ 'bindings', 'nan', 'node-pre-gyp' ]
+69 info install bcrypt@1.0.2
+70 verbose unsafe-perm in lifecycle false
+71 info bcrypt@1.0.2 Failed to exec install script
+72 verbose stack Error: bcrypt@1.0.2 install: `node-pre-gyp install --fallback-to-build`
+72 verbose stack spawn ENOENT
+72 verbose stack     at ChildProcess.<anonymous> (/usr/lib/node_modules/npm/lib/utils/spawn.js:17:16)
+72 verbose stack     at ChildProcess.emit (events.js:98:17)
+72 verbose stack     at maybeClose (child_process.js:766:16)
+72 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:833:5)
+73 verbose pkgid bcrypt@1.0.2
+74 verbose cwd /home/srishti/dev/pichost
+75 error Linux 4.4.0-78-generic
+76 error argv "/usr/bin/node" "/usr/bin/npm" "install"
+77 error node v0.10.48
+78 error npm  v2.15.1
+79 error file sh
+80 error code ELIFECYCLE
+81 error errno ENOENT
+82 error syscall spawn
+83 error bcrypt@1.0.2 install: `node-pre-gyp install --fallback-to-build`
+83 error spawn ENOENT
+84 error Failed at the bcrypt@1.0.2 install script 'node-pre-gyp install --fallback-to-build'.
+84 error This is most likely a problem with the bcrypt package,
+84 error not with npm itself.
+84 error Tell the author that this fails on your system:
+84 error     node-pre-gyp install --fallback-to-build
+84 error You can get information on how to open an issue for this project with:
+84 error     npm bugs bcrypt
+84 error Or if that isn't available, you can get their info via:
+84 error
+84 error     npm owner ls bcrypt
+84 error There is likely additional logging output above.
+85 verbose exit [ 1, true ]

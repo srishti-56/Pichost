@@ -12,7 +12,7 @@ app.use(express.static(__dirname + '/public/html'));
 app.use(express.static(__dirname + '/public/uploads'));
 
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
+app.use(bodyParser.json());	
 app.use(session({
 	cookieName: 'logSession',
 	secret: 'pichost',
@@ -32,7 +32,11 @@ app.get('/login.html', function(req, res){
 	res.sendFile(__dirname + '/public/html/login.html');
 
 });*/
+app.get('/logout', function(req,res){
+	req.logSession.destroy();
+	res.redirect('/login');
 
+});
 
 app.get('*', function(req, res) {
 	res.send('404');
